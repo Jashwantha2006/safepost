@@ -1,0 +1,18 @@
+{
+  "name": "safepost",
+  "version": "1.0.0",
+  "description": "SafePost — Protect Before You Post",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "mongodb": "^6.3.0",
+    "nodemailer": "^6.9.8",
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
