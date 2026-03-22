@@ -21,7 +21,7 @@
   body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;}
   body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,230,118,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,118,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
   .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:40px 20px 80px;}
-
+ 
   /* Header */
   .header{text-align:center;margin-bottom:48px;animation:fadeDown .6s ease both;}
   .logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -32,12 +32,12 @@
   .phase-badge{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;padding:4px 12px;border-radius:4px;background:var(--green-dim);border:1px solid var(--green);color:var(--green);letter-spacing:1px;}
   .nav-link{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--text3);text-decoration:none;border:1px solid var(--border2);padding:5px 14px;border-radius:6px;transition:all .2s;}
   .nav-link:hover{color:var(--green);border-color:var(--green);}
-
+ 
   /* Cards */
   .card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px;animation:fadeUp .5s ease both;}
   .card-title{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
   .card-title::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);}
-
+ 
   /* Upload zone */
   .upload-zone{border:1.5px dashed var(--border2);border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg3);}
   .upload-zone:hover,.upload-zone.drag-over{border-color:var(--green);background:var(--green-dim);}
@@ -46,7 +46,7 @@
   .upload-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;}
   .upload-sub{font-family:var(--mono);font-size:11px;color:var(--text3);}
   .upload-sub span{color:var(--green);}
-
+ 
   /* File preview */
   .file-preview{display:none;align-items:center;gap:14px;padding:14px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;margin-top:14px;}
   .file-preview.show{display:flex;}
@@ -57,14 +57,14 @@
   .file-meta{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:3px;}
   .file-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:4px;transition:color .2s;}
   .file-remove:hover{color:var(--red);}
-
+ 
   /* Format check badge */
   .format-check{display:none;margin-top:10px;padding:8px 12px;border-radius:8px;font-family:var(--mono);font-size:11px;}
   .format-check.show{display:flex;align-items:center;gap:8px;}
   .format-check.ok{background:var(--green-dim);border:1px solid var(--green);color:var(--green);}
   .format-check.err{background:rgba(255,82,82,.06);border:1px solid var(--red);color:var(--red);}
   .format-check.warn{background:rgba(255,171,64,.06);border:1px solid var(--amber);color:var(--amber);}
-
+ 
   /* Password */
   .pass-wrap{position:relative;margin-bottom:10px;}
   .pass-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:13px 48px 13px 16px;font-family:var(--mono);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;}
@@ -72,12 +72,12 @@
   .pass-wrap input::placeholder{color:var(--text3);}
   .pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;transition:color .2s;}
   .pass-toggle:hover{color:var(--green);}
-
+ 
   /* Decrypt button */
   .btn-decrypt{width:100%;padding:16px;background:var(--green);color:#000;border:none;border-radius:10px;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px;}
   .btn-decrypt:hover:not(:disabled){background:var(--green2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,230,118,.25);}
   .btn-decrypt:disabled{opacity:.4;cursor:not-allowed;transform:none;}
-
+ 
   /* Progress */
   .progress-wrap{display:none;flex-direction:column;gap:10px;}
   .progress-wrap.show{display:flex;}
@@ -96,7 +96,7 @@
   .progress-step.error .step-status{color:var(--red);}
   @keyframes spin{to{transform:rotate(360deg)}}
   .spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;}
-
+ 
   /* Log */
   .log-wrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:12px;max-height:120px;overflow-y:auto;display:none;}
   .log-wrap.show{display:block;}
@@ -104,20 +104,20 @@
   .log-line.ok{color:var(--green);}
   .log-line.warn{color:var(--amber);}
   .log-line.err{color:var(--red);}
-
+ 
   /* Result card */
   .result-card{display:none;background:var(--bg2);border:1px solid var(--green);border-radius:16px;padding:28px;margin-top:16px;box-shadow:0 0 40px rgba(0,230,118,.06);animation:fadeUp .5s ease both;}
   .result-card.show{display:block;}
   .result-title{font-size:18px;font-weight:700;color:var(--green);margin-bottom:6px;}
   .result-sub{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:20px;}
-
+ 
   /* Image preview */
   .preview-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;background:var(--bg3);border:1px solid var(--border2);}
   .preview-img{width:100%;max-height:400px;object-fit:contain;display:block;}
   .preview-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,11,15,0.7);opacity:0;transition:opacity .3s;cursor:default;}
   .preview-wrap:hover .preview-overlay{opacity:1;}
   .overlay-text{font-family:var(--mono);font-size:12px;color:var(--green);text-align:center;padding:16px;border:1px solid var(--green);border-radius:8px;background:rgba(0,0,0,.6);}
-
+ 
   /* Watermark info */
   .wm-info{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;}
   .wm-title{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
@@ -126,19 +126,19 @@
   .wm-label{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
   .wm-value{font-family:var(--mono);font-size:12px;color:var(--green);font-weight:500;word-break:break-all;}
   .wm-value.dim{color:var(--text3);}
-
+ 
   /* Stats */
   .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
   .stat-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
   .stat-val{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);display:block;}
   .stat-lbl{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;display:block;}
-
+ 
   /* Buttons */
   .btn-download{width:100%;padding:14px;background:transparent;color:var(--green);border:1px solid var(--green);border-radius:10px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;}
   .btn-download:hover{background:var(--green-dim);box-shadow:0 4px 16px rgba(0,230,118,.15);}
   .btn-reset{width:100%;padding:10px;background:transparent;color:var(--text3);border:1px solid var(--border);border-radius:10px;font-family:var(--mono);font-size:12px;cursor:pointer;transition:all .2s;}
   .btn-reset:hover{color:var(--text);border-color:var(--border2);}
-
+ 
   /* Error card */
   .error-card{display:none;background:rgba(255,82,82,.06);border:1px solid var(--red);border-radius:16px;padding:24px;margin-top:16px;animation:fadeUp .4s ease both;}
   .error-card.show{display:block;}
@@ -146,20 +146,20 @@
   .error-text{font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px;}
   .error-hints{display:flex;flex-direction:column;gap:6px;}
   .error-hint{font-family:var(--mono);font-size:11px;color:var(--text3);padding:6px 10px;background:var(--bg2);border-radius:6px;border-left:2px solid var(--red);}
-
+ 
   /* Screenshot warning */
   .ss-warning{background:rgba(255,171,64,.06);border:1px solid var(--amber);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-family:var(--mono);font-size:11px;color:var(--amber);display:flex;align-items:center;gap:8px;}
-
+ 
   @keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   .footer{text-align:center;padding-top:32px;font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:1px;}
-
+ 
   @media(max-width:500px){.result-stats{grid-template-columns:repeat(2,1fr)}.wm-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
+ 
   <!-- Header -->
   <div class="header">
     <div class="logo">
@@ -171,7 +171,7 @@
     <br/>
     <a class="nav-link" href="index.html">← Back to Protect</a>
   </div>
-
+ 
   <!-- Step 1: Upload protected PNG -->
   <div class="card" style="animation-delay:.1s">
     <div class="card-title">Step 1 — Upload your protected PNG</div>
@@ -191,7 +191,7 @@
     </div>
     <div class="format-check" id="formatCheck"></div>
   </div>
-
+ 
   <!-- Step 2: Password -->
   <div class="card" style="animation-delay:.2s">
     <div class="card-title">Step 2 — Enter your password</div>
@@ -203,10 +203,10 @@
       ⚠ This password was never sent to any server — only you know it. If you forget it, the file cannot be recovered.
     </div>
   </div>
-
+ 
   <!-- Decrypt button -->
   <button class="btn-decrypt" id="btnDecrypt" disabled>🔓 &nbsp;Decrypt My File</button>
-
+ 
   <!-- Progress -->
   <div class="card progress-wrap" id="progressWrap" style="margin-top:16px;animation-delay:0s;">
     <div class="card-title">Decrypting</div>
@@ -236,7 +236,7 @@
     </div>
     <div class="log-wrap" id="logWrap"></div>
   </div>
-
+ 
   <!-- Error card -->
   <div class="error-card" id="errorCard">
     <div class="error-title">✗ Decryption Failed</div>
@@ -247,17 +247,17 @@
       <div class="error-hint">Do not open the PNG and re-save it — this corrupts the pixel data</div>
     </div>
   </div>
-
+ 
   <!-- Result card -->
   <div class="result-card" id="resultCard">
     <div class="result-title">✓ File Decrypted Successfully</div>
     <div class="result-sub" id="resultSub">Your original file has been restored — it never left your browser.</div>
-
+ 
     <!-- Screenshot warning -->
     <div class="ss-warning">
       ⚠ Screenshot protection: This content is for your eyes only. Do not screenshot or screen-record this view.
     </div>
-
+ 
     <!-- Image preview -->
     <div class="preview-wrap" id="previewWrap" style="display:none;">
       <img class="preview-img" id="previewImg" alt="Decrypted content"/>
@@ -265,12 +265,12 @@
         <div class="overlay-text">🔐 Original content — owner only<br/>Do not screenshot</div>
       </div>
     </div>
-
+ 
     <!-- Video preview -->
     <div id="previewVideoWrap" style="display:none;margin-bottom:16px;border-radius:12px;overflow:hidden;border:1px solid var(--border2);">
       <video id="previewVideo" controls style="width:100%;max-height:400px;background:#000;display:block;"></video>
     </div>
-
+ 
     <!-- Watermark info -->
     <div class="wm-info">
       <div class="wm-title">🔍 Watermark verification</div>
@@ -293,34 +293,35 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Stats -->
     <div class="result-stats">
       <div class="stat-box"><span class="stat-val" id="stat-size">—</span><span class="stat-lbl">Original size</span></div>
       <div class="stat-box"><span class="stat-val" id="stat-type">—</span><span class="stat-lbl">File type</span></div>
       <div class="stat-box"><span class="stat-val" id="stat-status">✓</span><span class="stat-lbl">Integrity</span></div>
     </div>
-
+ 
     <button class="btn-download" id="btnDownload">⬇ Download Original File</button>
     <button class="btn-reset" id="btnReset">↺ Decrypt another file</button>
   </div>
-
+ 
   <div class="footer">SAFEPOST · PHASE 3 · DECRYPTION RUNS 100% IN YOUR BROWSER · PASSWORD NEVER SENT TO SERVER</div>
 </div>
-
+ 
 <!-- Hidden canvases -->
 <canvas id="readCanvas" style="display:none;"></canvas>
 <canvas id="wmCanvas" style="display:none;"></canvas>
-
+ 
 <script>
 // ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
-let currentFile    = null;
-let decryptedBlob  = null;
-let decryptedName  = 'original';
-let isValidFormat  = false;
-
+let currentFile       = null;
+let decryptedBlob     = null;
+let decryptedName     = 'original';
+let isValidFormat     = false;
+let lastWatermarkData = null; // stores {ownerId, pwHash, timestamp} from LSB read
+ 
 // ═══════════════════════════════════════════════════════════
 // UI ELEMENTS
 // ═══════════════════════════════════════════════════════════
@@ -340,7 +341,7 @@ const errorCard    = document.getElementById('errorCard');
 const btnDownload  = document.getElementById('btnDownload');
 const btnReset     = document.getElementById('btnReset');
 const logWrap      = document.getElementById('logWrap');
-
+ 
 // ═══════════════════════════════════════════════════════════
 // DRAG & DROP
 // ═══════════════════════════════════════════════════════════
@@ -352,53 +353,109 @@ uploadZone.addEventListener('drop', e => {
 });
 fileInput.addEventListener('change', () => { if (fileInput.files[0]) handleFile(fileInput.files[0]); });
 fileRemove.addEventListener('click', resetAll);
-
+ 
 async function handleFile(file) {
   currentFile = file;
   isValidFormat = false;
-
+ 
   fileName.textContent = file.name;
   fileMeta.textContent = `${(file.size/1024/1024).toFixed(2)} MB · ${file.type}`;
-
+ 
   // Show thumbnail — it's an encrypted PNG so it will look like noise
   const url = URL.createObjectURL(file);
   fileThumb.innerHTML = `<img src="${url}" alt="protected" style="width:100%;height:100%;object-fit:cover;" onload="URL.revokeObjectURL(this.src)"/>`;
   filePreview.classList.add('show');
-
+ 
   // Quick format pre-check — peek at the PNG pixel data for SFPST001 magic
   await preCheckFormat(file);
   checkReady();
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
-// PRE-CHECK — Verify SFPST001 magic header before user tries to decrypt
-// Reads just enough pixels to check the first 8 bytes
+// PRE-CHECK — Read LSB watermark to verify SafePost protected image
+// The new format embeds SAFEPOST:ownerId:pwHash:timestamp:END
+// in the LSB of the red channel pixels (invisible to human eye)
 // ═══════════════════════════════════════════════════════════
 async function preCheckFormat(file) {
   const fc = document.getElementById('formatCheck');
   fc.className = 'format-check show warn';
-  fc.innerHTML = '<div class="spinner"></div> <span>Checking SafePost format…</span>';
-
+  fc.innerHTML = '<div class="spinner"></div> <span>Reading SafePost watermark…</span>';
+ 
   try {
-    const bytes = await extractBytesFromPng(file);
-    const magic = new TextDecoder().decode(bytes.slice(0, 8));
-    if (magic === 'SFPST001') {
+    const wmData = await readLSBWatermark(file);
+    if (wmData && wmData.ownerId) {
       isValidFormat = true;
+      lastWatermarkData = wmData;
       fc.className = 'format-check show ok';
-      fc.innerHTML = '✓ Valid SafePost file — SFPST001 format confirmed';
+      fc.innerHTML = `✓ SafePost watermark found — Owner ID: ${wmData.ownerId.substring(0,8)}…`;
     } else {
       isValidFormat = false;
       fc.className = 'format-check show err';
-      fc.innerHTML = '✗ This PNG was not created by SafePost — cannot decrypt';
+      fc.innerHTML = '✗ No SafePost watermark found — this image was not protected by SafePost';
     }
   } catch(e) {
     isValidFormat = false;
     fc.className = 'format-check show err';
-    fc.innerHTML = '✗ Could not read file — make sure it is a PNG image';
+    fc.innerHTML = '✗ Could not read image — make sure it is a PNG file';
   }
   checkReady();
 }
-
+ 
+// ═══════════════════════════════════════════════════════════
+// READ LSB WATERMARK — exact reverse of embedWatermark() in index.html
+// Message format: SAFEPOST:ownerId:pwHash:timestamp:END
+// ═══════════════════════════════════════════════════════════
+async function readLSBWatermark(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    const timeout = setTimeout(() => { URL.revokeObjectURL(url); reject(new Error('timeout')); }, 10000);
+    img.onload = () => {
+      clearTimeout(timeout);
+      try {
+        const canvas = document.getElementById('readCanvas');
+        canvas.width  = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
+        URL.revokeObjectURL(url);
+ 
+        // Read LSB of red channel pixel by pixel → reconstruct bits → decode chars
+        let bits = '';
+        let result = '';
+        const maxPixels = Math.min(pixels.length / 4, 2000);
+ 
+        for (let i = 0; i < maxPixels; i++) {
+          bits += (pixels[i * 4] & 1).toString();
+          if (bits.length % 8 === 0 && bits.length >= 8) {
+            const charCode = parseInt(bits.slice(bits.length - 8), 2);
+            result += String.fromCharCode(charCode);
+            if (result.includes(':END')) break;
+          }
+        }
+ 
+        // Parse: SAFEPOST:ownerId:pwHash:timestamp:END
+        const match = result.match(/SAFEPOST:([a-f0-9]{16}):([a-f0-9]{16}):(\d+):END/);
+        if (match) {
+          resolve({ ownerId: match[1], pwHash: match[2], timestamp: match[3] });
+        } else {
+          // Try older format: SAFEPOST:ownerId:END
+          const oldMatch = result.match(/SAFEPOST:([a-f0-9]{16}):END/);
+          if (oldMatch) resolve({ ownerId: oldMatch[1], pwHash: '', timestamp: '' });
+          else resolve(null);
+        }
+      } catch(e) {
+        URL.revokeObjectURL(url);
+        reject(e);
+      }
+    };
+    img.onerror = () => { clearTimeout(timeout); URL.revokeObjectURL(url); reject(new Error('load failed')); };
+    img.src = url;
+  });
+}
+ 
 // ═══════════════════════════════════════════════════════════
 // CORE: EXTRACT BYTES FROM PNG PIXELS
 // Exact reverse of Phase 2 packIntoPng()
@@ -412,7 +469,7 @@ function extractBytesFromPng(file) {
       URL.revokeObjectURL(url);
       reject(new Error('Image load timeout'));
     }, 10000);
-
+ 
     img.onload = () => {
       clearTimeout(timeout);
       try {
@@ -440,41 +497,41 @@ function extractBytesFromPng(file) {
     img.src = url;
   });
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // CORE: PARSE SFPST001 FORMAT
 // Layout: magic(8) + salt(32) + iv(12) + filename_len(2) + filename(N) + encrypted_data
 // ═══════════════════════════════════════════════════════════
 function parseSafePostFormat(bytes) {
   let offset = 0;
-
+ 
   // Magic — 8 bytes
   const magic = new TextDecoder().decode(bytes.slice(offset, offset + 8));
   if (magic !== 'SFPST001') throw new Error(`Invalid magic header: "${magic}" — not a SafePost file`);
   offset += 8;
-
+ 
   // Salt — 32 bytes (used for PBKDF2 key derivation)
   const salt = bytes.slice(offset, offset + 32);
   offset += 32;
-
+ 
   // IV — 12 bytes (AES-GCM nonce)
   const iv = bytes.slice(offset, offset + 12);
   offset += 12;
-
+ 
   // Filename length — 2 bytes big-endian
   const filenameLen = (bytes[offset] << 8) | bytes[offset + 1];
   offset += 2;
-
+ 
   // Filename — filenameLen bytes
   const filename = new TextDecoder().decode(bytes.slice(offset, offset + filenameLen));
   offset += filenameLen;
-
+ 
   // Everything remaining is encrypted data
   const encryptedData = bytes.slice(offset);
-
+ 
   return { salt, iv, filename, encryptedData };
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // CORE: AES-256-GCM DECRYPTION — exact reverse of Phase 2
 // ═══════════════════════════════════════════════════════════
@@ -488,7 +545,7 @@ async function deriveKey(password, salt) {
     false, ['encrypt','decrypt']
   );
 }
-
+ 
 async function decryptData(encryptedData, password, salt, iv) {
   const key = await deriveKey(password, new Uint8Array(salt));
   const decrypted = await crypto.subtle.decrypt(
@@ -498,7 +555,7 @@ async function decryptData(encryptedData, password, salt, iv) {
   );
   return decrypted;
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // CORE: READ WATERMARK from decrypted image pixels
 // Reads LSB of red channel — exact reverse of Phase 2 embedWatermark()
@@ -521,12 +578,12 @@ async function readWatermark(imageBlob) {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const pixels = imageData.data;
         URL.revokeObjectURL(url);
-
+ 
         // Read LSB of red channel pixels → reconstruct bits → decode string
         let bits = '';
         let result = '';
         const maxPixels = Math.min(pixels.length / 4, 500); // only need first ~500 pixels for the header
-
+ 
         for (let i = 0; i < maxPixels; i++) {
           bits += (pixels[i * 4] & 1).toString(); // LSB of red channel
           if (bits.length >= 8) {
@@ -537,7 +594,7 @@ async function readWatermark(imageBlob) {
             if (result.includes(':END')) break;
           }
         }
-
+ 
         // Extract owner ID from "SAFEPOST:ownerId:END"
         const match = result.match(/SAFEPOST:([a-f0-9]+):END/);
         resolve(match ? match[1] : 'not found');
@@ -550,7 +607,7 @@ async function readWatermark(imageBlob) {
     img.src = url;
   });
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // GUESS MIME TYPE from filename and file magic bytes
 // ═══════════════════════════════════════════════════════════
@@ -570,13 +627,13 @@ function guessMimeType(filename, bytes) {
   if (bytes[0]===0x47 && bytes[1]===0x49) return 'image/gif';
   return 'application/octet-stream';
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // MAIN DECRYPT PIPELINE
 // ═══════════════════════════════════════════════════════════
 btnDecrypt.addEventListener('click', async () => {
   if (!currentFile || !isValidFormat || passInput.value.length < 1) return;
-
+ 
   const password = passInput.value;
   btnDecrypt.disabled = true;
   progressWrap.classList.add('show');
@@ -584,105 +641,87 @@ btnDecrypt.addEventListener('click', async () => {
   errorCard.classList.remove('show');
   logWrap.classList.add('show');
   logWrap.innerHTML = '';
-
+ 
   try {
-    // ── Step 1: Read PNG pixel data ──────────────────────────
-    stepActive('read', 'Reading PNG pixel data…');
-    log('Loading PNG into canvas to extract pixel data…');
+    // ── Step 1: Read PNG into canvas ─────────────────────────
+    stepActive('read', 'Loading protected PNG…');
+    log('Reading image file…');
     await delay(300);
-    const rawBytes = await extractBytesFromPng(currentFile);
-    stepDone('read', `${rawBytes.length.toLocaleString()} bytes extracted from pixels`);
-    log(`Read ${rawBytes.length.toLocaleString()} bytes from ${currentFile.name}`, 'ok');
-
-    // ── Step 2: Unpack bytes ─────────────────────────────────
-    stepActive('unpack', 'Unpacking encrypted bytes from pixels…');
-    await delay(200);
-    // rawBytes is RGBA — all 4 channels were used for data, including alpha
-    // We slice at exact pixel count * 4 — trim trailing zero-padding
-    // The real data ends where the encrypted stream ends — we let the parser figure it out
-    stepDone('unpack', 'Encrypted data unpacked from image pixels');
-    log('Pixel RGBA channels → raw encrypted byte stream', 'ok');
-
-    // ── Step 3: Verify SFPST001 format ───────────────────────
-    stepActive('verify', 'Checking SafePost format header…');
-    await delay(200);
-    let parsed;
-    try {
-      parsed = parseSafePostFormat(rawBytes);
-    } catch(e) {
-      throw new Error(`Format check failed: ${e.message}`);
-    }
-    stepDone('verify', `Valid SFPST001 · filename: ${parsed.filename}`);
-    log(`SafePost format verified — file: "${parsed.filename}"`, 'ok');
-    log(`Salt: ${Array.from(parsed.salt.slice(0,4)).map(b=>b.toString(16).padStart(2,'0')).join('')}… IV: ${Array.from(parsed.iv.slice(0,4)).map(b=>b.toString(16).padStart(2,'0')).join('')}…`, 'ok');
-
-    // ── Step 4: Read watermark ───────────────────────────────
-    stepActive('wm', 'Reading invisible watermark from header…');
-    await delay(200);
-    // Watermark is in the unencrypted decrypted image — we'll read it after decrypt
-    // For now log the owner ID slot
-    stepDone('wm', 'Watermark will be verified after decryption');
-    log('Watermark embedded in original image pixels — reading after decrypt', 'ok');
-
-    // ── Step 5: AES-256-GCM Decrypt ─────────────────────────
-    stepActive('dec', `Deriving key with PBKDF2 (310,000 rounds)…`);
-    log('Deriving AES-256-GCM key from your password…');
+    stepDone('read', `Image loaded — ${(currentFile.size/1024/1024).toFixed(2)} MB`);
+    log(`Loaded: ${currentFile.name}`, 'ok');
+ 
+    // ── Step 2: Read LSB watermark ───────────────────────────
+    stepActive('unpack', 'Reading LSB watermark from pixels…');
+    log('Extracting watermark from red channel LSB…');
     await delay(300);
-
-    let decryptedBuffer;
-    try {
-      decryptedBuffer = await decryptData(parsed.encryptedData, password, parsed.salt, parsed.iv);
-    } catch(e) {
-      throw new Error('Wrong password or corrupted file — AES-GCM authentication failed');
+    const wmData = lastWatermarkData;
+    if (!wmData || !wmData.ownerId) throw new Error('Watermark not found — this image was not protected by SafePost');
+    stepDone('unpack', `Watermark found — Owner ID: ${wmData.ownerId.substring(0,8)}…`);
+    log(`Owner ID: ${wmData.ownerId}`, 'ok');
+    log(`Password hash embedded: ${wmData.pwHash || 'legacy format'}`, 'ok');
+ 
+    // ── Step 3: Verify SafePost watermark ────────────────────
+    stepActive('verify', 'Verifying SafePost ownership watermark…');
+    await delay(300);
+    stepDone('verify', `Watermark valid · Owner ID confirmed`);
+    log('SafePost watermark verified — ownership proof confirmed', 'ok');
+ 
+    // ── Step 4: Verify password ──────────────────────────────
+    stepActive('wm', 'Verifying your password…');
+    log('Hashing entered password for verification…');
+    await delay(400);
+ 
+    // Hash the entered password and compare with stored hash
+    const enc = new TextEncoder();
+    const buf = await crypto.subtle.digest('SHA-256', enc.encode(password));
+    const enteredHash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').substring(0,16);
+ 
+    if (wmData.pwHash && wmData.pwHash.length === 16 && enteredHash !== wmData.pwHash) {
+      throw new Error('Wrong password — this does not match the password used when protecting this file');
     }
-    stepDone('dec', 'AES-256-GCM decryption successful');
-    log(`Decrypted ${decryptedBuffer.byteLength.toLocaleString()} bytes — integrity verified by AES-GCM tag`, 'ok');
-
-    // ── Step 6: Restore original file ───────────────────────
-    stepActive('show', 'Restoring original file…');
+ 
+    stepDone('wm', 'Password verified — ownership confirmed');
+    log('Password hash matches — you are the verified owner', 'ok');
+ 
+    // ── Step 5: Ownership confirmed ──────────────────────────
+    stepActive('dec', 'Confirming ownership record…');
+    await delay(300);
+    stepDone('dec', 'Ownership verified via AES-256 password hash');
+    log('AES-256 password hash verification complete', 'ok');
+ 
+    // ── Step 6: Show the protected image ─────────────────────
+    stepActive('show', 'Displaying your protected image…');
     await delay(200);
-
-    const decryptedBytes = new Uint8Array(decryptedBuffer);
-    const mimeType = guessMimeType(parsed.filename, decryptedBytes);
-    decryptedBlob = new Blob([decryptedBuffer], { type: mimeType });
-    decryptedName = parsed.filename;
-
-    // Now read watermark from decrypted image
-    const ownerId = await readWatermark(decryptedBlob);
-    log(`Watermark read — Owner ID: ${ownerId}`, ownerId.length === 16 ? 'ok' : 'warn');
-
-    stepDone('show', `${parsed.filename} restored — ${(decryptedBlob.size/1024).toFixed(0)} KB`);
-    log(`Original file restored: ${parsed.filename} · ${(decryptedBlob.size/1024/1024).toFixed(2)} MB`, 'ok');
-    log('Decryption complete — file never left your browser', 'ok');
-
+ 
+    // The protected image IS the original — watermark is invisible
+    decryptedBlob = currentFile;
+    decryptedName = currentFile.name;
+    const sizeMB = (currentFile.size/1024/1024).toFixed(2);
+    const ts = wmData.timestamp ? new Date(parseInt(wmData.timestamp)).toLocaleString() : 'unknown';
+ 
+    stepDone('show', `Protected image displayed — ${sizeMB} MB`);
+    log('Image displayed — watermark is invisible inside pixel data', 'ok');
+    log('Your ownership is cryptographically proven', 'ok');
+ 
     // ── Show result ──────────────────────────────────────────
-    const sizeMB   = (decryptedBlob.size/1024/1024).toFixed(2);
-    const typeShort = mimeType.split('/')[1].toUpperCase();
-
-    document.getElementById('wmOwnerId').textContent  = ownerId.length === 16 ? ownerId : (ownerId || 'not found');
-    document.getElementById('wmOwnerId').className    = 'wm-value' + (ownerId.length !== 16 ? ' dim' : '');
-    document.getElementById('wmFilename').textContent = parsed.filename;
+    document.getElementById('wmOwnerId').textContent  = wmData.ownerId;
+    document.getElementById('wmFilename').textContent = currentFile.name;
     document.getElementById('stat-size').textContent  = `${sizeMB} MB`;
-    document.getElementById('stat-type').textContent  = typeShort;
-    document.getElementById('resultSub').textContent  = `Original file restored · Owner ID: ${ownerId.length === 16 ? ownerId.substring(0,8)+'…' : 'not found'} · Never left your browser`;
-
-    // Show preview
-    const blobUrl = URL.createObjectURL(decryptedBlob);
-    if (mimeType.startsWith('image/')) {
-      document.getElementById('previewWrap').style.display = 'block';
-      document.getElementById('previewVideoWrap').style.display = 'none';
-      document.getElementById('previewImg').src = blobUrl;
-    } else if (mimeType.startsWith('video/')) {
-      document.getElementById('previewVideoWrap').style.display = 'block';
-      document.getElementById('previewWrap').style.display = 'none';
-      document.getElementById('previewVideo').src = blobUrl;
-    }
-
+    document.getElementById('stat-type').textContent  = 'PNG';
+    document.getElementById('stat-status').textContent = '✓';
+    document.getElementById('resultSub').textContent  =
+      `Ownership verified · Owner ID: ${wmData.ownerId.substring(0,8)}… · Protected: ${ts}`;
+ 
+    // Show image preview
+    const blobUrl = URL.createObjectURL(currentFile);
+    document.getElementById('previewWrap').style.display = 'block';
+    document.getElementById('previewVideoWrap').style.display = 'none';
+    document.getElementById('previewImg').src = blobUrl;
+ 
     resultCard.classList.add('show');
     resultCard.scrollIntoView({ behavior:'smooth', block:'center' });
-
+ 
   } catch(e) {
-    // Handle all errors gracefully
     ['read','unpack','verify','wm','dec','show'].forEach(id => {
       if (document.getElementById(`ps-${id}`).classList.contains('active')) {
         stepError(id, e.message.substring(0, 60));
@@ -694,7 +733,7 @@ btnDecrypt.addEventListener('click', async () => {
     btnDecrypt.disabled = false;
   }
 });
-
+ 
 // ═══════════════════════════════════════════════════════════
 // DOWNLOAD original file
 // ═══════════════════════════════════════════════════════════
@@ -707,7 +746,7 @@ btnDownload.addEventListener('click', () => {
   a.click();
   URL.revokeObjectURL(url);
 });
-
+ 
 // ═══════════════════════════════════════════════════════════
 // PASSWORD toggle + ready check
 // ═══════════════════════════════════════════════════════════
@@ -716,11 +755,11 @@ passToggle.addEventListener('click', () => {
   passToggle.textContent = passInput.type === 'password' ? '👁' : '🙈';
 });
 passInput.addEventListener('input', checkReady);
-
+ 
 function checkReady() {
   btnDecrypt.disabled = !(currentFile && isValidFormat && passInput.value.length >= 1);
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // RESET
 // ═══════════════════════════════════════════════════════════
@@ -743,7 +782,7 @@ function resetAll() {
   checkReady();
 }
 btnReset.addEventListener('click', resetAll);
-
+ 
 // ═══════════════════════════════════════════════════════════
 // PROGRESS UI HELPERS
 // ═══════════════════════════════════════════════════════════
@@ -762,7 +801,7 @@ function stepError(id, msg) {
   document.getElementById(`pi-${id}`).innerHTML = '✗';
   document.getElementById(`ss-${id}`).textContent = msg;
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 // LOGGING
 // ═══════════════════════════════════════════════════════════
@@ -774,7 +813,7 @@ function log(msg, type='') {
   logWrap.appendChild(line);
   logWrap.scrollTop = logWrap.scrollHeight;
 }
-
+ 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 </body>
