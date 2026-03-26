@@ -441,9 +441,17 @@ let lastOwnerId     = '';    // set after watermark step — used for backend re
 let lastPwHash      = '';    // first 16 chars of SHA-256 password hash
 
 // ═══════════════════════════════════════════════════════════
-// MODEL LOADING — face-api.js from unpkg CDN
-// ═══════════════════════════════════════════════════════════
-const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights';
+// MODEL LOADING — face-api.js with multiple CDN fallbacks
+
+// Try multiple CDN sources — first one that works is used
+const MODEL_CDNS = [
+  'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights',
+  'https://unpkg.com/face-api.js@0.22.2/weights',
+];
+const FACEAPI_SCRIPTS = [
+  'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js',
+  'https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js',
+];
 
 function setModelProgress(pct, label, state) {
   document.getElementById('modelFill').style.width = pct + '%';
@@ -452,33 +460,53 @@ function setModelProgress(pct, label, state) {
   if (state) document.getElementById('modelBanner').className = 'model-banner ' + state;
 }
 
-async function loadModels() {
-  try {
-    setModelProgress(20, 'Loading face-api.js library…', '');
-    // Load face-api.js from unpkg
-    await loadScript('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js');
-    setModelProgress(50, 'Downloading face detection model…', '');
-    // Load the tiny face detector model — smallest model, fast
-    await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-    setModelProgress(100, '✓ AI deepfake detection ready', 'ready');
-    modelReady = true;
-    document.getElementById('modelDot').className = 'model-dot ready';
-  } catch(e) {
-    // Model load failed — fall back to heuristic-only detection (no face check)
-    setModelProgress(100, '⚠ Face model offline — using heuristic detection only', 'error');
-    modelReady = false; // heuristics still run, face step skipped
-  }
-}
-
-function loadScript(src) {
+function loadScriptWithTimeout(src, ms) {
   return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+    if (document.querySelector(`script[src="${src}"]`) && typeof faceapi !== 'undefined') { resolve(); return; }
     const s = document.createElement('script');
+    const t = setTimeout(() => { s.remove(); reject(new Error('timeout')); }, ms);
+    s.onload  = () => { clearTimeout(t); resolve(); };
+    s.onerror = () => { clearTimeout(t); s.remove(); reject(new Error('failed')); };
     s.src = src;
-    s.onload = resolve;
-    s.onerror = reject;
     document.head.appendChild(s);
   });
+}
+
+async function loadModels() {
+  let scriptLoaded = false;
+  for (const src of FACEAPI_SCRIPTS) {
+    try {
+      setModelProgress(15, 'Loading face-api.js library…', '');
+      await loadScriptWithTimeout(src, 8000);
+      if (typeof faceapi !== 'undefined') { scriptLoaded = true; break; }
+    } catch(e) { /* try next */ }
+  }
+
+  if (!scriptLoaded || typeof faceapi === 'undefined') {
+    setModelProgress(100, '⚠ Face model offline — 3/4 heuristic checks still active', 'error');
+    modelReady = false; return;
+  }
+
+  let modelLoaded = false;
+  for (const url of MODEL_CDNS) {
+    try {
+      setModelProgress(50, 'Downloading face detection model…', '');
+      await Promise.race([
+        faceapi.nets.tinyFaceDetector.loadFromUri(url),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 15000))
+      ]);
+      modelLoaded = true; break;
+    } catch(e) { /* try next */ }
+  }
+
+  if (modelLoaded) {
+    setModelProgress(100, '✓ AI deepfake detection ready — all 4 checks active', 'ready');
+    modelReady = true;
+    document.getElementById('modelDot').className = 'model-dot ready';
+  } else {
+    setModelProgress(100, '⚠ Face model offline — 3/4 heuristic checks still active', 'error');
+    modelReady = false;
+  }
 }
 
 // Start loading immediately on page open
@@ -577,8 +605,25 @@ function getImageData(file, maxSize = 256) {
 
 // CHECK 1 — Face detection using face-api.js tiny detector
 async function checkFaces(file) {
+  // Try loading model one more time if not ready
   if (!modelReady || typeof faceapi === 'undefined') {
-    return { label: 'Model offline', result: 'heuristics only', score: 0, state: 'warn' };
+    for (const src of FACEAPI_SCRIPTS) {
+      try { await loadScriptWithTimeout(src, 6000); if (typeof faceapi !== 'undefined') break; } catch(e) {}
+    }
+    if (typeof faceapi !== 'undefined' && !modelReady) {
+      for (const url of MODEL_CDNS) {
+        try {
+          await Promise.race([
+            faceapi.nets.tinyFaceDetector.loadFromUri(url),
+            new Promise((_, r) => setTimeout(() => r(), 10000))
+          ]);
+          modelReady = true; break;
+        } catch(e) {}
+      }
+    }
+  }
+  if (!modelReady || typeof faceapi === 'undefined') {
+    return { label: 'Model offline', result: 'heuristics only — 3 other checks still active', score: 0, state: 'warn' };
   }
   const img = new Image();
   const url = URL.createObjectURL(file);
