@@ -1,7 +1,8 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/decrypt", "destination": "/decrypt.html" },
+    { "source": "/decrypt",   "destination": "/decrypt.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ],
   "headers": [
