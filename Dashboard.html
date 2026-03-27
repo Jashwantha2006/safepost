@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafePost — Owner Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080b0f;--s1:#0a0f18;--s2:#0f1622;--s3:#151e2e;
+  --bdr:#1c2a3e;--bdr2:#243349;
+  --green:#00e676;--green2:#00c853;
+  --green-d:rgba(0,230,118,0.08);--green-g:rgba(0,230,118,0.15);
+  --red:#ff4d6d;--amber:#ffc14d;--blue:#4db8ff;
+  --txt:#dce8f5;--txt2:#7a94b0;--txt3:#3d5470;
+  --mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(0,230,118,0.05),transparent);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,230,118,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,230,118,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:40px 20px 80px;}
+
+/* Header */
+.hdr{text-align:center;margin-bottom:40px;}
+.logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:12px;}
+.logo-ico{width:36px;height:36px;background:var(--green-d);border:1px solid var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-txt{font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+.logo-txt span{color:var(--green);}
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;padding:4px 12px;border-radius:4px;background:var(--green-d);border:1px solid var(--green);color:var(--green);letter-spacing:1px;margin-top:6px;}
+.nav-row{display:flex;justify-content:center;gap:10px;margin-top:14px;}
+.nav-link{font-family:var(--mono);font-size:11px;color:var(--txt3);text-decoration:none;border:1px solid var(--bdr2);padding:5px 14px;border-radius:6px;transition:all .2s;}
+.nav-link:hover{color:var(--green);border-color:var(--green);}
+
+/* Login card */
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:16px;padding:28px;margin-bottom:14px;}
+.card-hd{font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.card-hd::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);}
+
+.inp{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:12px 16px;font-family:var(--mono);font-size:13px;color:var(--txt);outline:none;transition:border-color .2s;margin-bottom:10px;}
+.inp:focus{border-color:var(--green);}
+.inp::placeholder{color:var(--txt3);}
+
+.pw-wrap{position:relative;margin-bottom:10px;}
+.pw-wrap .inp{margin-bottom:0;padding-right:48px;}
+.pw-eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--txt3);cursor:pointer;font-size:16px;transition:color .2s;}
+.pw-eye:hover{color:var(--green);}
+
+.btn{width:100%;padding:14px;background:var(--green);color:#000;border:none;border-radius:10px;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn:hover:not(:disabled){background:var(--green2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,230,118,.2);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-outline{background:transparent;color:var(--green);border:1px solid var(--green);}
+.btn-outline:hover:not(:disabled){background:var(--green-d);}
+
+/* Error/info */
+.msg{font-family:var(--mono);font-size:11px;padding:10px 14px;border-radius:8px;margin-top:10px;display:none;}
+.msg.show{display:block;}
+.msg.err{background:rgba(255,77,109,.06);border:1px solid var(--red);color:var(--red);}
+.msg.ok{background:var(--green-d);border:1px solid var(--green);color:var(--green);}
+.msg.info{background:rgba(77,184,255,.06);border:1px solid rgba(77,184,255,.3);color:var(--blue);}
+
+/* Dashboard */
+.dash{display:none;}
+.dash.show{display:block;}
+
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.stat{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:16px;text-align:center;}
+.stat-val{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--green);display:block;}
+.stat-lbl{font-family:var(--mono);font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block;}
+
+/* File cards */
+.files-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.files-ttl{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;}
+.refresh-btn{font-family:var(--mono);font-size:10px;color:var(--txt3);background:none;border:1px solid var(--bdr);padding:4px 12px;border-radius:6px;cursor:pointer;transition:all .2s;}
+.refresh-btn:hover{color:var(--green);border-color:var(--green);}
+
+.fcard{background:var(--s1);border:1px solid var(--bdr);border-radius:14px;padding:18px;margin-bottom:10px;transition:border-color .2s;}
+.fcard:hover{border-color:var(--bdr2);}
+.fcard.alert{border-color:rgba(255,77,109,.4);background:rgba(255,77,109,.03);}
+.fcard-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;}
+.fcard-ico{width:44px;height:44px;border-radius:10px;background:var(--s2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.fcard-info{flex:1;min-width:0;}
+.fcard-name{font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;}
+.fcard-id{font-family:var(--mono);font-size:10px;color:var(--txt3);margin-bottom:4px;}
+.fcard-date{font-family:var(--mono);font-size:10px;color:var(--txt3);}
+.fcard-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.badge-sm{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;border:1px solid;white-space:nowrap;}
+.badge-green{color:var(--green);border-color:rgba(0,230,118,.3);background:var(--green-d);}
+.badge-red{color:var(--red);border-color:rgba(255,77,109,.3);background:rgba(255,77,109,.06);}
+.badge-amber{color:var(--amber);border-color:rgba(255,193,77,.3);background:rgba(255,193,77,.06);}
+.badge-gray{color:var(--txt3);border-color:var(--bdr);background:var(--s2);}
+
+/* Repost URLs */
+.repost-box{background:var(--s2);border:1px solid rgba(255,77,109,.3);border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.repost-hd{font-family:var(--mono);font-size:10px;color:var(--red);margin-bottom:8px;font-weight:700;}
+.repost-url{font-family:var(--mono);font-size:10px;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bdr);word-break:break-all;}
+.repost-url:last-child{border-bottom:none;}
+.repost-url a{color:var(--red);text-decoration:none;}
+.repost-url a:hover{text-decoration:underline;}
+
+/* Actions */
+.fcard-actions{display:flex;gap:8px;}
+.act-btn{flex:1;padding:8px;border-radius:8px;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;text-decoration:none;text-align:center;}
+.act-check{background:var(--green-d);border:1px solid var(--green);color:var(--green);}
+.act-check:hover{background:var(--green-g);}
+.act-del{background:rgba(255,77,109,.06);border:1px solid rgba(255,77,109,.3);color:var(--red);}
+.act-del:hover{background:rgba(255,77,109,.15);}
+
+/* Empty state */
+.empty{text-align:center;padding:48px 20px;}
+.empty-ico{font-size:48px;margin-bottom:16px;display:block;}
+.empty-ttl{font-size:18px;font-weight:600;color:var(--txt);margin-bottom:8px;}
+.empty-sub{font-family:var(--mono);font-size:11px;color:var(--txt3);}
+
+/* Spinner */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--bdr2);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+
+/* Loading overlay */
+.loading{text-align:center;padding:48px;font-family:var(--mono);font-size:12px;color:var(--txt3);}
+
+/* Delete confirm */
+.del-confirm{display:none;background:rgba(255,77,109,.06);border:1px solid rgba(255,77,109,.4);border-radius:10px;padding:14px;margin-top:10px;}
+.del-confirm.show{display:block;}
+.del-confirm p{font-family:var(--mono);font-size:11px;color:var(--red);margin-bottom:10px;}
+.del-btns{display:flex;gap:8px;}
+
+/* User header */
+.user-hd{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:14px 18px;margin-bottom:16px;}
+.user-info{display:flex;align-items:center;gap:10px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--green-d);border:1px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--green);}
+.user-email{font-family:var(--mono);font-size:12px;color:var(--txt);}
+.user-since{font-family:var(--mono);font-size:10px;color:var(--txt3);margin-top:2px;}
+.logout-btn{font-family:var(--mono);font-size:10px;color:var(--txt3);background:none;border:1px solid var(--bdr);padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .2s;}
+.logout-btn:hover{color:var(--red);border-color:var(--red);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fcard{animation:fadeUp .3s ease both;}
+
+.footer{text-align:center;padding-top:32px;font-family:var(--mono);font-size:10px;color:var(--txt3);letter-spacing:1px;}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr);}.fcard-actions{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-ico">📊</div>
+      <div class="logo-txt">Safe<span>Post</span></div>
+    </div>
+    <div class="badge">OWNER DASHBOARD</div>
+    <div class="nav-row">
+      <a class="nav-link" href="index.html">🔐 Protect</a>
+      <a class="nav-link" href="decrypt.html">🔓 Decrypt</a>
+    </div>
+  </div>
+
+  <!-- LOGIN SECTION -->
+  <div id="loginSection">
+    <div class="card">
+      <div class="card-hd">Sign in to your dashboard</div>
+      <p style="font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:18px;">
+        Enter the email and password you used when registering a file for repost alerts. Your dashboard shows all protected files, alert history, and detected reposts.
+      </p>
+      <input class="inp" type="email" id="loginEmail" placeholder="your@email.com"/>
+      <div class="pw-wrap">
+        <input class="inp" type="password" id="loginPw" placeholder="Password you used when protecting the file…"/>
+        <button class="pw-eye" id="pwEye" type="button">👁</button>
+      </div>
+      <button class="btn" id="btnLogin">View My Dashboard</button>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SECTION -->
+  <div class="dash" id="dashboard">
+
+    <!-- User header -->
+    <div class="user-hd">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">J</div>
+        <div>
+          <div class="user-email" id="userEmail">—</div>
+          <div class="user-since" id="userSince">—</div>
+        </div>
+      </div>
+      <button class="logout-btn" id="btnLogout">Sign out</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-val" id="statFiles">0</span>
+        <span class="stat-lbl">Protected files</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="statAlerts">0</span>
+        <span class="stat-lbl">Alerts sent</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="statReposts">0</span>
+        <span class="stat-lbl">Reposts detected</span>
+      </div>
+    </div>
+
+    <!-- Files list -->
+    <div class="files-hd">
+      <div class="files-ttl">Your protected files</div>
+      <button class="refresh-btn" id="btnRefresh">↺ Refresh</button>
+    </div>
+
+    <div id="filesList">
+      <div class="loading"><span class="spin"></span>Loading your files…</div>
+    </div>
+
+    <div class="msg info show" style="margin-top:14px;">
+      ℹ Files are automatically deleted from our database after 30 days. Re-register after protecting a new file to restart monitoring.
+    </div>
+  </div>
+
+  <div class="footer">SAFEPOST · DASHBOARD · YOUR DATA IS PRIVATE · FILES AUTO-DELETE AFTER 30 DAYS</div>
+</div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────────
+let currentEmail  = '';
+let currentPwHash = '';
+let allRecords    = [];
+
+// ── API BASE ──────────────────────────────────────────────────────────────
+const API = window.location.protocol === 'file:' ? 'https://safepost-pi.vercel.app' : '';
+
+// ── PASSWORD HASH ─────────────────────────────────────────────────────────
+async function hashPw(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').substring(0,16);
+}
+
+// ── EYE TOGGLE ────────────────────────────────────────────────────────────
+document.getElementById('pwEye').addEventListener('click', () => {
+  const i = document.getElementById('loginPw');
+  i.type = i.type === 'password' ? 'text' : 'password';
+  document.getElementById('pwEye').textContent = i.type === 'password' ? '👁' : '🙈';
+});
+
+// ── LOGIN ─────────────────────────────────────────────────────────────────
+document.getElementById('btnLogin').addEventListener('click', doLogin);
+document.getElementById('loginPw').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  const msg   = document.getElementById('loginMsg');
+
+  if (!email || !email.includes('@')) {
+    showMsg(msg, 'Please enter a valid email address', 'err'); return;
+  }
+  if (!pw || pw.length < 6) {
+    showMsg(msg, 'Please enter your password (min 6 characters)', 'err'); return;
+  }
+
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>Checking…';
+  showMsg(msg, 'Verifying your credentials…', 'info');
+
+  try {
+    const pwHash = await hashPw(pw);
+    const resp   = await fetch(API + '/api/dashboard', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, pwHash }),
+    });
+    const data = await resp.json();
+
+    if (resp.ok && data.success) {
+      currentEmail  = email;
+      currentPwHash = pwHash;
+      allRecords    = data.records;
+      showDashboard();
+    } else {
+      showMsg(msg, data.error || 'Login failed — check your email and password', 'err');
+      btn.disabled = false;
+      btn.textContent = 'View My Dashboard';
+    }
+  } catch(e) {
+    showMsg(msg, `Connection error: ${e.message}`, 'err');
+    btn.disabled = false;
+    btn.textContent = 'View My Dashboard';
+  }
+}
+
+// ── SHOW DASHBOARD ────────────────────────────────────────────────────────
+function showDashboard() {
+  document.getElementById('loginSection').style.display = 'none';
+  document.getElementById('dashboard').classList.add('show');
+
+  // User header
+  const initials = currentEmail.charAt(0).toUpperCase();
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userEmail').textContent  = currentEmail;
+
+  const earliest = allRecords.length > 0
+    ? new Date(allRecords[allRecords.length - 1].createdAt).toLocaleDateString('en-IN')
+    : 'N/A';
+  document.getElementById('userSince').textContent = `Member since ${earliest}`;
+
+  renderStats();
+  renderFiles();
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────
+function renderStats() {
+  const totalAlerts  = allRecords.reduce((a, r) => a + (r.alertsSent  || 0), 0);
+  const totalReposts = allRecords.reduce((a, r) => a + (r.repostUrls  ? r.repostUrls.length : 0), 0);
+  document.getElementById('statFiles').textContent   = allRecords.length;
+  document.getElementById('statAlerts').textContent  = totalAlerts;
+  document.getElementById('statReposts').textContent = totalReposts;
+}
+
+// ── FILES LIST ────────────────────────────────────────────────────────────
+function renderFiles() {
+  const container = document.getElementById('filesList');
+
+  if (allRecords.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        <span class="empty-ico">🛡️</span>
+        <div class="empty-ttl">No registered files yet</div>
+        <div class="empty-sub">Protect a file on the main page and register your email<br/>for repost alerts — it will appear here.</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  allRecords.forEach((r, idx) => {
+    const card   = buildFileCard(r, idx);
+    container.appendChild(card);
+  });
+}
+
+function buildFileCard(r, idx) {
+  const el = document.createElement('div');
+  el.className = `fcard${r.repostUrls && r.repostUrls.length > 0 ? ' alert' : ''}`;
+  el.style.animationDelay = `${idx * 0.06}s`;
+
+  const created     = new Date(r.createdAt).toLocaleString('en-IN');
+  const lastChecked = r.lastChecked ? new Date(r.lastChecked).toLocaleString('en-IN') : 'Not yet checked';
+  const dfBadge     = r.dfScore <= 20 ? ['badge-green','Authentic'] :
+                      r.dfScore <= 50 ? ['badge-amber','Minor flags'] :
+                                        ['badge-red','Suspicious'];
+  const sizeMB      = r.fileSize ? (r.fileSize / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown';
+  const hasReposts  = r.repostUrls && r.repostUrls.length > 0;
+
+  el.innerHTML = `
+    <div class="fcard-top">
+      <div class="fcard-ico">${getFileIcon(r.filename)}</div>
+      <div class="fcard-info">
+        <div class="fcard-name">${escHtml(r.filename)}</div>
+        <div class="fcard-id">Owner ID: ${r.ownerId}</div>
+        <div class="fcard-date">Protected: ${created}</div>
+      </div>
+    </div>
+    <div class="fcard-badges">
+      <span class="badge-sm badge-green">✓ Protected</span>
+      <span class="badge-sm ${dfBadge[0]}">AI: ${dfBadge[1]}</span>
+      <span class="badge-sm badge-gray">${sizeMB}</span>
+      ${hasReposts ? `<span class="badge-sm badge-red">⚠ ${r.repostUrls.length} repost${r.repostUrls.length !== 1 ? 's' : ''} detected</span>` : '<span class="badge-sm badge-green">✓ No reposts detected</span>'}
+      <span class="badge-sm badge-gray">Last scan: ${lastChecked}</span>
+      ${r.alertsSent > 0 ? `<span class="badge-sm badge-amber">${r.alertsSent} alert${r.alertsSent !== 1 ? 's' : ''} sent</span>` : ''}
+    </div>
+    ${hasReposts ? `
+    <div class="repost-box">
+      <div class="repost-hd">⚠ Content detected at these URLs — possible unauthorised repost:</div>
+      ${r.repostUrls.map(u => `<div class="repost-url"><a href="${escHtml(u)}" target="_blank" rel="noopener">${escHtml(u)}</a></div>`).join('')}
+    </div>` : ''}
+    <div class="fcard-actions">
+      <a class="act-btn act-check" href="${API}/api/status?ownerId=${r.ownerId}" target="_blank">🔍 Check status</a>
+      <button class="act-btn act-del" onclick="confirmDelete('${r.ownerId}', this)">🗑 Delete record</button>
+    </div>
+    <div class="del-confirm" id="del-${r.ownerId}">
+      <p>⚠ This will permanently delete the ownership record and stop repost monitoring. This cannot be undone.</p>
+      <div class="del-btns">
+        <button class="act-btn act-del" style="flex:1" onclick="doDelete('${r.ownerId}')">Confirm delete</button>
+        <button class="act-btn act-check" style="flex:1" onclick="cancelDelete('${r.ownerId}')">Cancel</button>
+      </div>
+    </div>`;
+
+  return el;
+}
+
+// ── DELETE RECORD ─────────────────────────────────────────────────────────
+function confirmDelete(ownerId, btn) {
+  document.getElementById(`del-${ownerId}`).classList.add('show');
+  btn.style.display = 'none';
+}
+function cancelDelete(ownerId) {
+  document.getElementById(`del-${ownerId}`).classList.remove('show');
+  // Re-show delete button
+  document.querySelector(`[onclick="confirmDelete('${ownerId}', this)"]`).style.display = '';
+}
+
+async function doDelete(ownerId) {
+  try {
+    const resp = await fetch(API + '/api/delete', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ ownerId, pwHash: currentPwHash }),
+    });
+    const data = await resp.json();
+    if (resp.ok && data.success) {
+      allRecords = allRecords.filter(r => r.ownerId !== ownerId);
+      renderStats();
+      renderFiles();
+    } else {
+      alert('Delete failed: ' + (data.error || 'Unknown error'));
+    }
+  } catch(e) {
+    alert('Connection error: ' + e.message);
+  }
+}
+
+// ── REFRESH ───────────────────────────────────────────────────────────────
+document.getElementById('btnRefresh').addEventListener('click', async () => {
+  const btn = document.getElementById('btnRefresh');
+  btn.textContent = '↺ Refreshing…';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch(API + '/api/dashboard', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: currentEmail, pwHash: currentPwHash }),
+    });
+    const data = await resp.json();
+    if (resp.ok && data.success) {
+      allRecords = data.records;
+      renderStats();
+      renderFiles();
+    }
+  } catch(e) { /* silent fail */ }
+
+  btn.textContent = '↺ Refresh';
+  btn.disabled = false;
+});
+
+// ── LOGOUT ────────────────────────────────────────────────────────────────
+document.getElementById('btnLogout').addEventListener('click', () => {
+  currentEmail  = '';
+  currentPwHash = '';
+  allRecords    = [];
+  document.getElementById('loginSection').style.display = '';
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPw').value = '';
+  document.getElementById('loginMsg').className = 'msg';
+  document.getElementById('btnLogin').disabled = false;
+  document.getElementById('btnLogin').textContent = 'View My Dashboard';
+});
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function showMsg(el, text, type) {
+  el.textContent = text;
+  el.className = `msg show ${type}`;
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function getFileIcon(filename) {
+  if (!filename) return '📄';
+  const ext = filename.split('.').pop().toLowerCase();
+  if (['jpg','jpeg','png','heic','webp','gif'].includes(ext)) return '🖼️';
+  if (['mp4','mov','avi','webm','mkv'].includes(ext)) return '🎬';
+  return '📄';
+}
+</script>
+</body>
+</html>
